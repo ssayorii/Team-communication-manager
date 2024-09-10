@@ -12,23 +12,13 @@ const Sidebar = () => {
       height={"100vh"}
     >
       <VStack spacing={"4"}>
-        <Button
-          as={Link}
-          to="/dashboard"
-          variant="link"
-          colorScheme="whiteAlpha"
-        >
+        <Button as={Link} to="/dashboard" variant="link" colorScheme="white">
           Dashboard
         </Button>
-        <Button as={Link} to="/tasks" variant="link" colorScheme="whiteAlpha">
+        <Button as={Link} to="/tasks" variant="link" colorScheme="white">
           Tasks
         </Button>
-        <Button
-          as={Link}
-          to="/projects"
-          variant="link"
-          colorScheme="whiteAlpha"
-        >
+        <Button as={Link} to="/projects" variant="link" colorScheme="white">
           Projects
         </Button>
       </VStack>
