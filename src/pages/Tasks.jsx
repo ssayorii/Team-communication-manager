@@ -14,6 +14,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon, EditIcon, CheckIcon } from "@chakra-ui/icons";
+import { v4 as uuidv4 } from "uuid";
 
 const Tasks = () => {
   // Task state management
@@ -29,7 +30,7 @@ const Tasks = () => {
   // Function to handle adding a new task
   const handleAddTask = () => {
     if (newTask.trim() !== "") {
-      setTasks([...tasks, { id: tasks.length + 1, title: newTask, priority }]);
+      setTasks([...tasks, { id: uuidv4(), title: newTask, priority }]);
       setNewTask("");
       setPriority("Medium");
     }
