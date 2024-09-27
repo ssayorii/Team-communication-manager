@@ -40,7 +40,10 @@ import {
   ChevronUpIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { Checkbox, Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
+
 import { v4 as uuidv4 } from "uuid";
+import { dummyUsers } from "../users/dummyUsers";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]); // Array to store all tasks
@@ -58,36 +61,49 @@ const Tasks = () => {
   const { isOpen, onOpen, onClose } = useDisclosure(); // For delete confirmation modal
   const [taskToDelete, setTaskToDelete] = useState(null); // ID of task to be deleted
   const [expandedTaskId, setExpandedTaskId] = useState(null); // ID of task with expanded description
+  const [taskNameError, setTaskNameError] = useState(false); // To track if the task name is empty
+  const [selectedAssignees, setSelectedAssignees] = useState([]); // State for selected assignees
 
   const toast = useToast();
-
   const handleAddTask = () => {
-    if (newTask.trim() !== "") {
-      // Create new task object and add it to the tasks array
-      setTasks([
-        ...tasks,
-        {
-          id: uuidv4(),
-          title: newTask,
-          description: newDescription,
-          dueDate: newDueDate,
-          priority: priority,
-          completed: false,
-        },
-      ]);
-      // Reset input fields
-      setNewTask("");
-      setNewDescription("");
-      setNewDueDate("");
-      setPriority("Medium");
-      // Show success toast
+    if (newTask.trim() === "") {
       toast({
-        title: "Task added",
-        status: "success",
+        title: "Task name cannot be empty",
+        status: "error",
         duration: 2000,
         isClosable: true,
       });
+      setTaskNameError(true);
+      return;
     }
+
+    setTasks([
+      ...tasks,
+      {
+        id: uuidv4(),
+        title: newTask,
+        description: newDescription,
+        dueDate: newDueDate,
+        priority: priority,
+        assignees: selectedAssignees, // Store multiple assignees
+        completed: false,
+      },
+    ]);
+
+    // Reset input fields
+    setNewTask("");
+    setNewDescription("");
+    setNewDueDate("");
+    setPriority("Medium");
+    setSelectedAssignees([]); // Reset selected assignees
+    setTaskNameError(false);
+
+    toast({
+      title: "Task added",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
   };
 
   // Function to initiate task deletion
@@ -175,6 +191,13 @@ const Tasks = () => {
         return "gray";
     }
   };
+  const handleAssigneeChange = (assignee) => {
+    if (selectedAssignees.includes(assignee)) {
+      setSelectedAssignees(selectedAssignees.filter((a) => a !== assignee));
+    } else {
+      setSelectedAssignees([...selectedAssignees, assignee]);
+    }
+  };
 
   // Filter tasks based on current filter
   const filteredTasks = tasks.filter((task) => {
@@ -232,9 +255,15 @@ const Tasks = () => {
           <Input
             placeholder="Enter a new task"
             value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            disabled={editTaskId !== null}
+            onChange={(e) => {
+              setNewTask(e.target.value);
+              setTaskNameError(false); // Remove error outline once user starts typing
+            }}
+            isInvalid={taskNameError}
+            errorBorderColor="red.500"
+            focusBorderColor={taskNameError ? "red.500" : "blue.500"}
           />
+
           <Textarea
             placeholder="Enter task description"
             value={newDescription}
@@ -256,6 +285,28 @@ const Tasks = () => {
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
           </Select>
+          {/* Assignees Select Dropdown */}
+          <Menu closeOnSelect={false}>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              Assign to
+            </MenuButton>
+            <MenuList>
+              {dummyUsers.map((user) => (
+                <MenuItem
+                  key={user.id}
+                  onClick={() => handleAssigneeChange(user.name)}
+                >
+                  <Checkbox
+                    isChecked={selectedAssignees.includes(user.name)}
+                    onChange={() => handleAssigneeChange(user.name)}
+                  >
+                    {user.name}
+                  </Checkbox>
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+
           <Button
             leftIcon={<AddIcon />}
             colorScheme="blue"
@@ -363,9 +414,26 @@ const Tasks = () => {
                     </Badge>
                     <Text as={task.completed ? "s" : "span"}>{task.title}</Text>
                     <Spacer />
-                    <Text fontSize="sm" color="gray.500">
-                      Due: {task.dueDate}
-                    </Text>
+                    {/* Show the Assignees */}
+                    <HStack wrap="wrap" spacing={2}>
+                      {task.assignees?.map((assignee, index) => (
+                        <Tag
+                          key={index}
+                          size="md"
+                          borderRadius="full"
+                          colorScheme="blue"
+                        >
+                          <TagLabel>{assignee}</TagLabel>
+                        </Tag>
+                      ))}
+                    </HStack>
+
+                    <Spacer />
+                    {task.dueDate && (
+                      <Text fontSize="sm" color="gray.500">
+                        Due: {task.dueDate}
+                      </Text>
+                    )}
                   </HStack>
                 )}
                 <HStack>
@@ -380,6 +448,22 @@ const Tasks = () => {
                   ) : (
                     // Action Buttons (View Mode)
                     <>
+                      <HStack wrap="wrap" spacing={2} mt={2}>
+                        {selectedAssignees.map((assignee) => (
+                          <Tag
+                            size="md"
+                            key={assignee}
+                            borderRadius="full"
+                            variant="solid"
+                            colorScheme="blue"
+                          >
+                            <TagLabel>{assignee}</TagLabel>
+                            <TagCloseButton
+                              onClick={() => handleAssigneeChange(assignee)}
+                            />
+                          </Tag>
+                        ))}
+                      </HStack>
                       <IconButton
                         icon={
                           expandedTaskId === task.id ? (
