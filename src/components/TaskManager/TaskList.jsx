@@ -21,6 +21,7 @@ const TaskList = ({
   onDeleteTask,
   onEditTask,
   onToggleComplete,
+  users,
 }) => {
   const filteredTasks = tasks.filter((task) => {
     if (filter === "All") return true;
@@ -88,6 +89,7 @@ const TaskList = ({
             onDeleteTask={onDeleteTask}
             onEditTask={onEditTask}
             onToggleComplete={onToggleComplete}
+            users={users}
           />
         ))}
       </VStack>
