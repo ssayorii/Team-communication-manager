@@ -18,6 +18,9 @@ const Sidebar = () => {
         <Button as={Link} to="/tasks" variant="link" colorScheme="white">
           Tasks
         </Button>
+        <Button as={Link} to="/tasksmanager" variant="link" colorScheme="white">
+          TasksManager
+        </Button>
         <Button as={Link} to="/projects" variant="link" colorScheme="white">
           Projects
         </Button>

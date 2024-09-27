@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
 import Projects from "./pages/Projects";
+import TaskManager from "./components/TaskManager/TaskManager";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tasks" element={<Tasks />} />
+            <Route path="/tasksManager" element={<TaskManager />} />
             <Route path="/projects" element={<Projects />} />
           </Routes>
         </Box>
