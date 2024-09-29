@@ -64,10 +64,12 @@ const TaskItem = ({
   };
 
   const handleAssigneeChange = (assignee) => {
-    const updatedAssignees = editedTask.assignees.includes(assignee)
-      ? editedTask.assignees.filter((a) => a !== assignee)
-      : [...editedTask.assignees, assignee];
-    setEditedTask({ ...editedTask, assignees: updatedAssignees });
+    setEditedTask((prevTask) => {
+      const updatedAssignees = prevTask.assignees.includes(assignee)
+        ? prevTask.assignees.filter((a) => a !== assignee)
+        : [...prevTask.assignees, assignee];
+      return { ...prevTask, assignees: updatedAssignees };
+    });
   };
 
   return (
@@ -142,6 +144,19 @@ const TaskItem = ({
                 ))}
               </MenuList>
             </Menu>
+            <HStack wrap="wrap" spacing={2}>
+              {editedTask.assignees.map((assignee, index) => (
+                <Tag
+                  key={index}
+                  size="md"
+                  borderRadius="full"
+                  colorScheme="blue"
+                  variant="solid"
+                >
+                  <TagLabel>{assignee}</TagLabel>
+                </Tag>
+              ))}
+            </HStack>
           </VStack>
         ) : (
           <HStack flex={1}>
@@ -163,26 +178,6 @@ const TaskItem = ({
               {task.title}
             </Text>
             <Spacer />
-            <Menu closeOnSelect={false}>
-              <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size="sm">
-                Assignees
-              </MenuButton>
-              <MenuList>
-                {users.map((user) => (
-                  <MenuItem
-                    key={user.id}
-                    onClick={() => handleAssigneeChange(user.name)}
-                  >
-                    <Checkbox
-                      isChecked={task.assignees.includes(user.name)}
-                      onChange={() => handleAssigneeChange(user.name)}
-                    >
-                      {user.name}
-                    </Checkbox>
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
             {task.dueDate && (
               <Text fontSize="sm" color="gray.500">
                 Due: {task.dueDate}
@@ -200,12 +195,14 @@ const TaskItem = ({
             />
           ) : (
             <>
-              <IconButton
-                icon={isExpanded ? <ChevronUpIcon /> : <ChevronRightIcon />}
-                onClick={() => setIsExpanded(!isExpanded)}
-                aria-label="Toggle description"
-                variant="ghost"
-              />
+              {task.description && (
+                <IconButton
+                  icon={isExpanded ? <ChevronUpIcon /> : <ChevronRightIcon />}
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  aria-label="Toggle description"
+                  variant="ghost"
+                />
+              )}
               <IconButton
                 icon={<EditIcon />}
                 colorScheme="blue"
