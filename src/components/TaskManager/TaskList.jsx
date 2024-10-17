@@ -8,6 +8,7 @@ import {
   MenuItem,
   Button,
   Spacer,
+  Checkbox,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import TaskItem from "./TaskItem";
@@ -21,6 +22,8 @@ const TaskList = ({
   onDeleteTask,
   onEditTask,
   onToggleComplete,
+  onSelectTask,
+  selectedTasks,
   users,
 }) => {
   const filteredTasks = tasks.filter((task) => {
@@ -81,16 +84,22 @@ const TaskList = ({
         </Menu>
       </Flex>
 
-      <VStack spacing={3} align="stretch">
+      <VStack spacing={3} align="stretch" width="100%">
         {sortedTasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            onDeleteTask={onDeleteTask}
-            onEditTask={onEditTask}
-            onToggleComplete={onToggleComplete}
-            users={users}
-          />
+          <Flex key={task.id} align="center" width="100%">
+            <Checkbox
+              mr={2}
+              isChecked={selectedTasks.includes(task.id)}
+              onChange={() => onSelectTask(task.id)}
+            />
+            <TaskItem
+              task={task}
+              onDeleteTask={onDeleteTask}
+              onEditTask={onEditTask}
+              onToggleComplete={onToggleComplete}
+              users={users}
+            />
+          </Flex>
         ))}
       </VStack>
     </>
