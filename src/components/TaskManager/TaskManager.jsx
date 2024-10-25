@@ -20,6 +20,7 @@ import TaskInputForm from "./TaskInputForm";
 import TaskList from "./TaskList";
 import { v4 as uuidv4 } from "uuid";
 import { dummyUsers } from "../../users/dummyUsers";
+import CalendarView from "../CalendarView";
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
