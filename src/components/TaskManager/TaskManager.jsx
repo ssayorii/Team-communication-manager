@@ -172,9 +172,7 @@ const TaskManager = () => {
                 users={dummyUsers}
               />
             </TabPanel>
-            <TabPanel>
-              <CalendarView tasks={tasks} />
-            </TabPanel>
+            <TabPanel></TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
