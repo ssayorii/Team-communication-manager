@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import TasksCard from "../components/TasksCard";
+import SmallCalendar from "../components/SmallCalendar";
 
 const Home = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -25,11 +26,18 @@ const Home = () => {
   const urgentTasks = [];
   dummyTasks.forEach((t) => t.priority == "High" && urgentTasks.push(t));
 
+  const completedTasks = [
+    "2024-10-05",
+    "2024-10-10",
+    "2024-10-10",
+    "2024-10-15",
+  ];
+
   return (
-    <Box>
+    <Box color="black">
       <Heading mb="1rem">Welcome John Doe</Heading>
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={5}>
-        <GridItem bg="white" color="black" padding={5} borderRadius={10}>
+        <GridItem boxShadow="md" padding={5} borderRadius={10}>
           <Heading fontSize="2xl" mb={7}>
             Urgent Tasks
           </Heading>
@@ -43,7 +51,7 @@ const Home = () => {
             />
           ))}
         </GridItem>
-        <GridItem bg="white" color="black" padding={5} borderRadius={7}>
+        <GridItem boxShadow="md" padding={5} borderRadius={7}>
           <Heading fontSize="2xl" mb={7}>
             Daily Tasks
           </Heading>
@@ -56,6 +64,12 @@ const Home = () => {
               key={daily.id}
             />
           ))}
+        </GridItem>
+        <GridItem boxShadow="md" padding={5} borderRadius={7}>
+          <Heading fontSize="2xl" mb={7}>
+            Calendar
+          </Heading>
+          <SmallCalendar completedTasks={completedTasks} />
         </GridItem>
       </SimpleGrid>
     </Box>
