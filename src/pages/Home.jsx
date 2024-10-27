@@ -37,13 +37,7 @@ const Home = () => {
     <Box color="black">
       <Heading mb="1rem">Welcome John Doe</Heading>
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={5}>
-        <GridItem
-          bg="white"
-          boxShadow="md"
-          color="black"
-          padding={5}
-          borderRadius={10}
-        >
+        <GridItem boxShadow="md" padding={5} borderRadius={10}>
           <Heading fontSize="2xl" mb={7}>
             Urgent Tasks
           </Heading>
@@ -57,13 +51,7 @@ const Home = () => {
             />
           ))}
         </GridItem>
-        <GridItem
-          bg="white"
-          boxShadow="md"
-          color="black"
-          padding={5}
-          borderRadius={7}
-        >
+        <GridItem boxShadow="md" padding={5} borderRadius={7}>
           <Heading fontSize="2xl" mb={7}>
             Daily Tasks
           </Heading>
@@ -77,13 +65,7 @@ const Home = () => {
             />
           ))}
         </GridItem>
-        <GridItem
-          bg="white"
-          boxShadow="md"
-          color="black"
-          padding={5}
-          borderRadius={7}
-        >
+        <GridItem boxShadow="md" padding={5} borderRadius={7}>
           <Heading fontSize="2xl" mb={7}>
             Calendar
           </Heading>

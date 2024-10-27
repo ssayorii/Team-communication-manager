@@ -60,7 +60,6 @@ const CustomToolbar = (toolbar) => {
       justifyContent="space-between"
       alignItems="center"
       mb={4}
-      color="black"
       borderRadius="md"
     >
       <Flex alignItems="center">
@@ -126,7 +125,7 @@ const EventCalendar = () => {
     console.log(event.projectId);
   };
   return (
-    <Box color="black" borderRadius="8px">
+    <Box borderRadius="8px">
       <Calendar
         localizer={localizer}
         events={events}

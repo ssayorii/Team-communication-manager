@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Flex>
         <Sidebar />
-        <Box flex="1" padding="2rem" bg="white">
+        <Box flex="1" padding="2rem" bg="white" color="black">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
