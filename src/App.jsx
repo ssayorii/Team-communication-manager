@@ -13,6 +13,7 @@ import Tasks from "./pages/Tasks";
 import Projects from "./pages/Projects";
 import TaskManager from "./components/TaskManager/TaskManager";
 import Home from "./pages/Home";
+import ProjectView from "./components/ProjectView";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/tasksManager" element={<TaskManager />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projectview" element={<ProjectView />} />
           </Routes>
         </Box>
       </Flex>

@@ -8,6 +8,7 @@ const Sidebar = () => {
     { path: "/dashboard", label: "Dashboard" },
     { path: "/tasks", label: "Tasks" },
     { path: "/projects", label: "Projects" },
+    { path: "/projectview", label: "ProjectView" },
   ];
   const location = useLocation();
 

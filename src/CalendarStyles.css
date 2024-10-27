@@ -1,0 +1,9 @@
+/* Disable clicking on each day cell */
+/* .rbc-month-view .rbc-date-cell {
+  pointer-events: none;
+  cursor: default;
+} */
+
+.rbc-toolbar .rbc-toolbar-label {
+  font-size: 1.2rem;
+}
