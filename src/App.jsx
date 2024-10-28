@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard";
 import EventCalendar from "./pages/EventCalendar";
 import Home from "./pages/Home";
 import ProjectView from "./components/ProjectView";
+import Tasks from "../src/pages/Tasks";
+import Projects from "../src/pages/Projects";
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/tasksManager" element={<TaskManager />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/calendar" element={<EventCalendar />} />
             <Route path="/projectview" element={<ProjectView />} />
           </Routes>
         </Box>
