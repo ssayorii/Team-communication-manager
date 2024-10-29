@@ -15,6 +15,7 @@ import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
 import TaskRow from "./TaskRow";
 import { sections } from "./Tasks";
 import SubtaskRow from "./SubTaskRow";
+import uuvid from "uuid";
 
 const ProjectView = () => {
   const TableHead = [
@@ -95,7 +96,7 @@ const ProjectView = () => {
                 </Thead>
                 <Tbody>
                   {section.tasks.map((task) => (
-                    <TaskRow key={task.id} task={task} />
+                    <TaskRow key={uuvid()} task={task} />
                   ))}
                   <Tr>
                     <Td colSpan={7} py={2} border={"none"}>
