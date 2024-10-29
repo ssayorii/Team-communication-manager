@@ -6,9 +6,11 @@ export const dummyTasks = [
     assignee: "Alice",
     start: "2024-10-20",
     end: "2024-10-25",
+    completedDate: "2024-10-24",
     priority: "High",
     status: "In Progress",
     project: "Website Redesign",
+    projectId: 1
   },
   {
     id: "2",
@@ -17,9 +19,11 @@ export const dummyTasks = [
     assignee: "Bob",
     start: "2024-10-22",
     end: "2024-10-30",
+    completedDate: "2024-10-25",
     priority: "Medium",
-    status: "Not Started",
+    status: "COMPLETED",
     project: "Website Redesign",
+    projectId: 2
   },
   {
     id: "3",
@@ -28,9 +32,11 @@ export const dummyTasks = [
     assignee: "Charlie",
     start: "2024-10-23",
     end: "2024-10-28",
+    completedDate: "2024-10-24",
     priority: "Low",
     status: "COMPLETED",
     project: "Dashboard Improvements",
+    projectId: 3
   },
   {
     id: "4",
@@ -39,20 +45,24 @@ export const dummyTasks = [
     assignee: "David",
     start: "2024-10-25",
     end: "2024-10-27",
+    completedDate: "2024-10-26",
     priority: "High",
     status: "In Progress",
     project: "Website Redesign",
+    projectId: 4
   },
   {
     id: "5",
     task: "Task 5",
     description: "Finalize project documentation.",
     assignee: "Eve",
-    start: "2024-10-26",
+    start: "2024-10-29",
     end: "2024-11-01",
+    completedDate: "2024-10-30",
     priority: "Medium",
-    status: "Not Started",
+    status: "COMPLETED",
     project: "Documentation",
+    projectId: 5
   },
 ];
 
