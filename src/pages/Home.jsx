@@ -17,21 +17,18 @@ import SmallCalendar from "../components/SmallCalendar";
 
 const Home = () => {
   const today = new Date().toISOString().split("T")[0];
-  const priorityColor = (priority) =>
-    priority == "High" ? "red" : priority == "Medium" ? "blue" : "green";
 
   const dailyTasks = [];
-  dummyTasks.forEach((t) => t.start !== today && dailyTasks.push(t));
+  dummyTasks.forEach((t) => t.start == today && dailyTasks.push(t));
 
   const urgentTasks = [];
   dummyTasks.forEach((t) => t.priority == "High" && urgentTasks.push(t));
 
-  const completedTasks = [
-    "2024-10-05",
-    "2024-10-10",
-    "2024-10-10",
-    "2024-10-15",
-  ];
+  const completedTasks = [];
+
+  dummyTasks.forEach(
+    (t) => t.status == "COMPLETED" && completedTasks.push(t.end)
+  );
 
   return (
     <Box color="black">
@@ -60,6 +57,7 @@ const Home = () => {
               task={daily.task}
               project={daily.project}
               priority={daily.priority}
+              status={daily.status}
               id={daily.id}
               key={daily.id}
             />
