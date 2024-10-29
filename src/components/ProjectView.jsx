@@ -15,7 +15,6 @@ import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
 import TaskRow from "./TaskRow";
 import { sections } from "./Tasks";
 import SubtaskRow from "./SubTaskRow";
-import uuvid from "uuid";
 
 const ProjectView = () => {
   const TableHead = [
@@ -30,17 +29,8 @@ const ProjectView = () => {
 
   return (
     <Box bg="gray.50" minH="100vh">
-      <Flex
-        borderBottom="1px"
-        borderColor="gray.200"
-        bg="white"
-        px={6}
-        py={3}
-        position="sticky"
-        top={0}
-        zIndex={1}
-      >
-        <Text fontSize="xl" fontWeight="semibold" color="gray.900">
+      <Flex px={6} py={3} top={0} zIndex={1}>
+        <Text fontSize={"xx-large"} fontWeight="semibold" color="gray.900">
           Projects / Asana Clone
         </Text>
       </Flex>
@@ -96,7 +86,7 @@ const ProjectView = () => {
                 </Thead>
                 <Tbody>
                   {section.tasks.map((task) => (
-                    <TaskRow key={uuvid()} task={task} />
+                    <TaskRow key={task.id} task={task} />
                   ))}
                   <Tr>
                     <Td colSpan={7} py={2} border={"none"}>

@@ -28,7 +28,7 @@ const PriorityBadge = ({ priority }) => {
           ? "orange.500"
           : "blue.500"
       }
-      fontWeight="medium"
+      fontWeight="semibold"
     >
       {priority}
     </Badge>

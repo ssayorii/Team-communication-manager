@@ -1,6 +1,14 @@
 // TaskRow.js
 import React from "react";
-import { Tr, Td, Flex, Text, IconButton, Checkbox } from "@chakra-ui/react";
+import {
+  Tr,
+  Td,
+  Flex,
+  Text,
+  IconButton,
+  Checkbox,
+  Box,
+} from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import AssigneeBadge from "./AssigneeBadge";
 import PriorityBadge from "./PriorityBadge";
@@ -26,21 +34,39 @@ const TaskRow = ({ task }) => (
             color="gray.400"
             _hover={{ bg: "transparent", color: "gray.600" }}
           />
-          <Text fontSize="sm" color="gray.700">
+          <Text fontSize="sm" fontWeight={"semibold"} color="gray.700">
             {task.name}
           </Text>
         </Flex>
       </Td>
-      <Td py={2} fontSize="sm" color="gray.600" borderColor={"gray.300"}>
+      <Td
+        py={2}
+        fontSize="sm"
+        color="gray.600"
+        fontWeight={"medium"}
+        borderColor={"gray.300"}
+      >
         {task.description}
       </Td>
       <Td py={2} borderColor={"gray.300"}>
         <AssigneeBadge assignee={task.assignee} />
       </Td>
-      <Td py={2} fontSize="sm" color="gray.600" borderColor={"gray.300"}>
+      <Td
+        py={2}
+        fontSize="sm"
+        color="gray.600"
+        fontWeight={"bold"}
+        borderColor={"gray.300"}
+      >
         {task.start}
       </Td>
-      <Td py={2} fontSize="sm" color="gray.600" borderColor={"gray.300"}>
+      <Td
+        py={2}
+        fontSize="sm"
+        color="gray.600"
+        fontWeight={"bold"}
+        borderColor={"gray.300"}
+      >
         {task.end}
       </Td>
       <Td py={2} borderColor={"gray.300"}>
