@@ -1,121 +1,404 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-  Badge,
-  Box,
-  Heading,
-  HStack,
-  SimpleGrid,
-  Table,
-  Tag,
-  Tbody,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  Td,
-  VStack,
-  Icon,
-  IconButton,
-  Flex,
-} from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-
 import React from "react";
+import {
+  Box,
+  Flex,
+  Text,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Badge,
+  Icon,
+  Checkbox,
+  IconButton,
+  Button,
+  Container,
+} from "@chakra-ui/react";
+import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  AddIcon,
+  EditIcon,
+  CheckIcon,
+} from "@chakra-ui/icons";
 
 const ProjectView = () => {
-  const textColor = "gray.700";
-  return (
-    <Box w="80%" p={4}>
-      <Text fontSize="2xl" fontWeight="bold" mb={4} color={textColor}>
-        Projects / Asana Clone
-      </Text>
+  const sections = [
+    {
+      title: "TO DO",
+      tasks: [
+        {
+          id: 1,
+          name: "Task 1",
+          description: "lorem ipsumlorem ipsum",
+          assignee: "DDD",
+          start: "Oct 20",
+          end: "Oct 25",
+          priority: "High",
+          status: "TO DO",
+          subtasks: [
+            {
+              name: "Sub Task 1",
+              description: "lorem ipsumlorem ipsum",
+              assignee: "DDD",
+              start: "Oct 20",
+              end: "Oct 25",
+              priority: "High",
+              status: "TO DO",
+            },
+            {
+              name: "Sub Task 2",
+              description: "lorem ipsumlorem ipsum",
+              assignee: "DDD",
+              start: "Oct 20",
+              end: "Oct 25",
+              priority: "High",
+              status: "COMPLETED",
+              completed: true,
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: "Task 2",
+          description: "lorem ipsumlorem ipsum",
+          assignee: "DDD",
+          start: "Oct 20",
+          end: "Oct 25",
+          priority: "Medium",
+          status: "TO DO",
+        },
+      ],
+    },
+    {
+      title: "IN PROGRESS",
+      tasks: [
+        {
+          id: 3,
+          name: "Task 2",
+          description: "lorem ipsumlorem ipsum",
+          assignee: "DDD",
+          start: "Oct 20",
+          end: "Oct 25",
+          priority: "Low",
+          status: "IN PROGRESS",
+        },
+      ],
+    },
+    {
+      title: "COMPLETED",
+      tasks: [
+        {
+          id: 4,
+          name: "Task 2",
+          description: "lorem ipsumlorem ipsum",
+          assignee: "DDD",
+          start: "Oct 20",
+          end: "Oct 25",
+          priority: "High",
+          status: "COMPLETED",
+        },
+      ],
+    },
+  ];
 
-      {/* <Accordion
-          bg="gray.200"
-          boxShadow={"lg"}
-          borderRadius={10}
-          marginTop={8}
-          allowToggle
-          defaultIndex={[0]}
-        >
-          <AccordionItem>
-            <AccordionButton>
-              <Box
-                flex={"1"}
-                textAlign={"left"}
-                fontWeight={"bold"}
-                color={"gray.500"}
-                fontSize={20}
-                _hover={"none"}
-              >
-                TODO
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel> */}
+  const TableHead = [
+    "Task",
+    "Description",
+    "Assignee",
+    "Start",
+    "End",
+    "Priority",
+    "Status",
+  ];
+  const PriorityBadge = ({ priority }) => {
+    const colorScheme = {
+      High: "red",
+      Medium: "orange",
+      Low: "blue",
+    }[priority];
+
+    return (
       <Badge
-        colorScheme="gray.600"
-        color={textColor}
-        fontSize={20}
-        fontWeight="bold"
-        paddingRight={30}
-        borderRadius={5}
-        marginTop={30}
+        px={2}
+        py={0.5}
+        borderRadius="full"
+        fontSize="xs"
+        bg={
+          priority === "High"
+            ? "red.100"
+            : priority === "Medium"
+            ? "orange.100"
+            : "blue.100"
+        }
+        color={
+          priority === "High"
+            ? "red.500"
+            : priority === "Medium"
+            ? "orange.500"
+            : "blue.500"
+        }
+        fontWeight="medium"
       >
-        <Flex>
-          <Icon marginTop={1.5} as={ChevronDownIcon} />
-          <Text>TODO</Text>
-        </Flex>
+        {priority}
       </Badge>
-      <Box
-        bg="gray.200"
-        boxShadow={"lg"}
-        borderRadius={10}
-        marginTop={7}
-        flex={"1"}
-        textAlign={"left"}
-        fontWeight={"bold"}
-        color={"gray.500"}
-        fontSize={20}
-        _hover={"none"}
+    );
+  };
+
+  const StatusBadge = ({ status }) => {
+    const styles = {
+      "TO DO": {
+        bg: "gray.100",
+        color: "gray.600",
+      },
+      "IN PROGRESS": {
+        bg: "blue.100",
+        color: "blue.500",
+      },
+      COMPLETED: {
+        bg: "green.100",
+        color: "green.500",
+      },
+    }[status];
+
+    return (
+      <Badge
+        px={2}
+        py={0.5}
+        borderRadius="md"
+        fontSize="xs"
+        {...styles}
+        display="flex"
+        alignItems="center"
+        gap={1}
       >
-        <Table variant={"simple"}>
-          <Thead>
-            <Tr>
-              <Th>Task</Th>
-              <Th>Description</Th>
-              <Th>Assignee</Th>
-              <Th>Start</Th>
-              <Th>End</Th>
-              <Th>Priority</Th>
-              <Th>Status</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr fontWeight={"semibold"} fontSize={15}>
-              <Td paddingRight={5}>Task1</Td>
-              <Td>Complete the homepage layout.</Td>
-              <Td>john doe</Td>
-              <Td>Oct 20</Td>
-              <Td>Oct 25</Td>
-              <Td>
-                <Badge colorScheme="red" marginLeft={3}>
-                  High
-                </Badge>
-              </Td>
-              <Td>
-                <Badge colorScheme="green">Completed</Badge>
-              </Td>
-            </Tr>
-          </Tbody>
-        </Table>
+        {status === "IN PROGRESS" && (
+          <Box w={2} h={2} borderRadius="full" bg="blue.500" />
+        )}
+        {status === "COMPLETED" && <Icon as={CheckIcon} />}
+        {status}
+      </Badge>
+    );
+  };
+
+  const AssigneeBadge = ({ assignee }) => (
+    <Flex
+      bg="blue.500"
+      color="white"
+      borderRadius="full"
+      px={2}
+      py={0.5}
+      fontSize="xs"
+      alignItems="center"
+      justifyContent="center"
+      w="fit-content"
+    >
+      {assignee}
+    </Flex>
+  );
+
+  return (
+    <Box bg="gray.50" minH="100vh">
+      <Flex
+        borderBottom="1px"
+        borderColor="gray.200"
+        bg="white"
+        px={6}
+        py={3}
+        position="sticky"
+        top={0}
+        zIndex={1}
+      >
+        <Text fontSize="xl" fontWeight="semibold" color="gray.900">
+          Projects / Asana Clone
+        </Text>
+      </Flex>
+
+      <Box p={6}>
+        {sections.map((section) => (
+          <Box key={section.title} mb={6}>
+            <Button
+              leftIcon={<ChevronDownIcon />}
+              variant="ghost"
+              bg="gray.100"
+              mb={2}
+              py={1}
+              px={2}
+              height="auto"
+              _hover={{ bg: "gray.200" }}
+              fontWeight="semibold"
+              color="gray.700"
+              fontSize="sm"
+            >
+              {section.title}
+            </Button>
+
+            <Box
+              bg="white"
+              borderRadius="lg"
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              <Table variant="simple">
+                <Thead bg="gray.50">
+                  <Tr>
+                    {TableHead.map((head) => (
+                      <Th
+                        borderBottomWidth="1px"
+                        borderColor="gray.200"
+                        color="gray.600"
+                        fontSize="xs"
+                        textTransform="none"
+                        key={head}
+                      >
+                        {head}
+                      </Th>
+                    ))}
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {section.tasks.map((task) => (
+                    <React.Fragment key={task.id}>
+                      <Tr
+                        _hover={{ bg: "gray.50" }}
+                        borderBottomWidth={"1px"}
+                        borderColor="gray.100"
+                      >
+                        <Td py={2} borderColor={"gray.300"}>
+                          <Flex align="center" gap={2}>
+                            <IconButton
+                              icon={<ChevronRightIcon />}
+                              variant="ghost"
+                              size="sm"
+                              p={0}
+                              minW="auto"
+                              h="auto"
+                              color="gray.400"
+                              _hover={{ bg: "transparent", color: "gray.600" }}
+                            />
+                            <Text fontSize="sm" color="gray.700">
+                              {task.name}
+                            </Text>
+                          </Flex>
+                        </Td>
+                        <Td
+                          py={2}
+                          fontSize="sm"
+                          color="gray.600"
+                          borderColor={"gray.300"}
+                        >
+                          {task.description}
+                        </Td>
+                        <Td py={2} borderColor={"gray.300"}>
+                          <AssigneeBadge assignee={task.assignee} />
+                        </Td>
+                        <Td
+                          py={2}
+                          fontSize="sm"
+                          color="gray.600"
+                          borderColor={"gray.300"}
+                        >
+                          {task.start}
+                        </Td>
+                        <Td
+                          py={2}
+                          fontSize="sm"
+                          color="gray.600"
+                          borderColor={"gray.300"}
+                        >
+                          {task.end}
+                        </Td>
+                        <Td py={2} borderColor={"gray.300"}>
+                          <PriorityBadge priority={task.priority} />
+                        </Td>
+                        <Td py={2} borderColor={"gray.300"}>
+                          <StatusBadge status={task.status} />
+                        </Td>
+                      </Tr>
+                      {task.subtasks?.map((subtask, index) => (
+                        <Tr
+                          key={`${task.id}-${index}`}
+                          bg="gray.50"
+                          _hover={{ bg: "gray.100" }}
+                        >
+                          <Td py={2} pl={12} borderColor={"gray.300"}>
+                            <Flex align="center" gap={2}>
+                              <Checkbox
+                                borderColor="gray.300"
+                                isChecked={subtask.completed}
+                                colorScheme="green"
+                                size="sm"
+                              />
+                              <Text
+                                fontSize="sm"
+                                color="gray.700"
+                                textDecoration={
+                                  subtask.completed ? "line-through" : "none"
+                                }
+                              >
+                                {subtask.name}
+                              </Text>
+                            </Flex>
+                          </Td>
+                          <Td
+                            py={2}
+                            fontSize="sm"
+                            color="gray.600"
+                            borderColor={"gray.300"}
+                          >
+                            {subtask.description}
+                          </Td>
+                          <Td py={2} borderColor={"gray.300"}>
+                            <AssigneeBadge assignee={subtask.assignee} />
+                          </Td>
+                          <Td
+                            py={2}
+                            fontSize="sm"
+                            color="gray.600"
+                            borderColor={"gray.300"}
+                          >
+                            {subtask.start}
+                          </Td>
+                          <Td
+                            py={2}
+                            fontSize="sm"
+                            color="gray.600"
+                            borderColor={"gray.300"}
+                          >
+                            {subtask.end}
+                          </Td>
+                          <Td py={2} borderColor={"gray.300"}>
+                            <PriorityBadge priority={subtask.priority} />
+                          </Td>
+                          <Td py={2} borderColor={"gray.300"}>
+                            <StatusBadge status={subtask.status} />
+                          </Td>
+                        </Tr>
+                      ))}
+                    </React.Fragment>
+                  ))}
+                  <Tr>
+                    <Td colSpan={7} py={2} border={"none"}>
+                      <Button
+                        leftIcon={<AddIcon w={3} h={3} />}
+                        variant="ghost"
+                        size="sm"
+                        color="gray.500"
+                        fontWeight="normal"
+                        _hover={{ bg: "transparent", color: "gray.700" }}
+                      >
+                        Add Task
+                      </Button>
+                    </Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </Box>
+          </Box>
+        ))}
       </Box>
-      {/* </AccordionPanel>
-          </AccordionItem>
-        </Accordion> */}
     </Box>
   );
 };
