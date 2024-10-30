@@ -8,6 +8,13 @@ import {
   Text,
   VStack,
   useToast,
+  Button,
+  HStack,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
 import TaskInputForm from "./TaskInputForm";
 import TaskList from "./TaskList";
@@ -18,6 +25,7 @@ const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
   const [sortBy, setSortBy] = useState("Priority");
+  const [selectedTasks, setSelectedTasks] = useState([]);
   const toast = useToast();
 
   const bgColor = useColorModeValue("gray.50", "gray.800");
@@ -42,6 +50,7 @@ const TaskManager = () => {
 
   const handleDeleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
+    setSelectedTasks(selectedTasks.filter((taskId) => taskId !== id));
     toast({
       title: "Task deleted",
       status: "info",
@@ -68,6 +77,38 @@ const TaskManager = () => {
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
+  };
+
+  const handleSelectTask = (id) => {
+    setSelectedTasks((prev) =>
+      prev.includes(id) ? prev.filter((taskId) => taskId !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkDelete = () => {
+    setTasks(tasks.filter((task) => !selectedTasks.includes(task.id)));
+    setSelectedTasks([]);
+    toast({
+      title: `${selectedTasks.length} tasks deleted`,
+      status: "info",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
+  const handleBulkComplete = () => {
+    setTasks(
+      tasks.map((task) =>
+        selectedTasks.includes(task.id) ? { ...task, completed: true } : task
+      )
+    );
+    setSelectedTasks([]);
+    toast({
+      title: `${selectedTasks.length} tasks marked as complete`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
   };
 
   const completionPercentage =
@@ -99,18 +140,40 @@ const TaskManager = () => {
         </Box>
 
         <TaskInputForm onAddTask={handleAddTask} users={dummyUsers} />
-
-        <TaskList
-          tasks={tasks}
-          filter={filter}
-          setFilter={setFilter}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          onDeleteTask={handleDeleteTask}
-          onEditTask={handleEditTask}
-          onToggleComplete={handleToggleComplete}
-          users={dummyUsers}
-        />
+        <Tabs isFitted variant="enclosed" mt={6}>
+          <TabList mb="1em">
+            <Tab>List View</Tab>
+            <Tab>Calendar View</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              {selectedTasks.length > 0 && (
+                <HStack mb={4} spacing={4}>
+                  <Button onClick={handleBulkDelete} colorScheme="red">
+                    Delete Selected ({selectedTasks.length})
+                  </Button>
+                  <Button onClick={handleBulkComplete} colorScheme="green">
+                    Mark Selected as Complete ({selectedTasks.length})
+                  </Button>
+                </HStack>
+              )}
+              <TaskList
+                tasks={tasks}
+                filter={filter}
+                setFilter={setFilter}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                onDeleteTask={handleDeleteTask}
+                onEditTask={handleEditTask}
+                onToggleComplete={handleToggleComplete}
+                onSelectTask={handleSelectTask}
+                selectedTasks={selectedTasks}
+                users={dummyUsers}
+              />
+            </TabPanel>
+            <TabPanel></TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
     </Container>
   );

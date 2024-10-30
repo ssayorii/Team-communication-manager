@@ -13,6 +13,11 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
@@ -24,6 +29,7 @@ const TaskInputForm = ({ onAddTask, users }) => {
   const [priority, setPriority] = useState("Medium");
   const [selectedAssignees, setSelectedAssignees] = useState([]);
   const [taskNameError, setTaskNameError] = useState(false);
+  const [estimatedTime, setEstimatedTime] = useState(1);
 
   const bgColor = useColorModeValue("white", "gray.700");
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -40,6 +46,7 @@ const TaskInputForm = ({ onAddTask, users }) => {
       dueDate: newDueDate,
       priority: priority,
       assignees: selectedAssignees,
+      estimatedTime: estimatedTime,
     });
 
     // Reset input fields
@@ -48,6 +55,7 @@ const TaskInputForm = ({ onAddTask, users }) => {
     setNewDueDate("");
     setPriority("Medium");
     setSelectedAssignees([]);
+    setEstimatedTime(1);
     setTaskNameError(false);
   };
 
@@ -82,6 +90,11 @@ const TaskInputForm = ({ onAddTask, users }) => {
           }}
           errorBorderColor="red.500"
           focusBorderColor={taskNameError ? "red.500" : "blue.500"}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleAddTask();
+            }
+          }}
         />
       </FormControl>
       <FormControl>
@@ -111,6 +124,21 @@ const TaskInputForm = ({ onAddTask, users }) => {
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
           </Select>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Estimated Time (hours)</FormLabel>
+          <NumberInput
+            value={estimatedTime}
+            onChange={(value) => setEstimatedTime(Number(value))}
+            min={0.5}
+            step={0.5}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
         </FormControl>
       </HStack>
       <FormControl>

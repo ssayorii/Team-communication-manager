@@ -20,6 +20,11 @@ import {
   MenuItem,
   Button,
   Checkbox,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import {
   EditIcon,
@@ -28,6 +33,7 @@ import {
   ChevronUpIcon,
   ChevronRightIcon,
   ChevronDownIcon,
+  TimeIcon,
 } from "@chakra-ui/icons";
 
 const TaskItem = ({
@@ -84,6 +90,9 @@ const TaskItem = ({
       borderColor={borderColor}
       borderWidth={1}
       color={textColor}
+      onClick={() => (isEditing ? null : setIsExpanded(!isExpanded))}
+      cursor="pointer"
+      width="100%"
     >
       <HStack justify="space-between" mb={2}>
         {isEditing ? (
@@ -157,6 +166,20 @@ const TaskItem = ({
                 </Tag>
               ))}
             </HStack>
+            <NumberInput
+              value={editedTask.estimatedTime}
+              onChange={(value) =>
+                setEditedTask({ ...editedTask, estimatedTime: Number(value) })
+              }
+              min={0.5}
+              step={0.5}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
           </VStack>
         ) : (
           <HStack flex={1}>
@@ -183,6 +206,12 @@ const TaskItem = ({
                 Due: {task.dueDate}
               </Text>
             )}
+            <Badge colorScheme="purple" variant="subtle">
+              <HStack spacing={1}>
+                <TimeIcon />
+                <Text>{task.estimatedTime}h</Text>
+              </HStack>
+            </Badge>
           </HStack>
         )}
         <HStack>

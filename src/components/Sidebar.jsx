@@ -1,8 +1,17 @@
-import { Box, Button, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, VStack } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const Sidebar = () => {
+  const routes = [
+    { path: "/", label: "Home" },
+    { path: "/dashboard", label: "Dashboard" },
+    { path: "/tasks", label: "Tasks" },
+    { path: "/projects", label: "Projects" },
+    { path: "/projectview", label: "ProjectView" },
+  ];
+  const location = useLocation();
+
   return (
     <Box
       width="200px"
@@ -11,19 +20,22 @@ const Sidebar = () => {
       padding="1rem"
       height={"100vh"}
     >
-      <VStack spacing={"4"}>
-        <Button as={Link} to="/dashboard" variant="link" colorScheme="white">
-          Dashboard
-        </Button>
-        <Button as={Link} to="/tasks" variant="link" colorScheme="white">
-          Tasks
-        </Button>
-        <Button as={Link} to="/tasksmanager" variant="link" colorScheme="white">
-          TasksManager
-        </Button>
-        <Button as={Link} to="/projects" variant="link" colorScheme="white">
-          Projects
-        </Button>
+      <VStack>
+        {routes.map((route) => (
+          <Button
+            bg={location.pathname == route.path ? "#1a202c" : ""}
+            padding={2}
+            width="100%"
+            textAlign="left"
+            as={Link}
+            to={route.path}
+            variant="link"
+            colorScheme="white"
+            key={route.label}
+          >
+            {route.label}
+          </Button>
+        ))}
       </VStack>
     </Box>
   );
