@@ -23,7 +23,7 @@ function App() {
       <Navbar />
       <Flex>
         <Sidebar />
-        <Box flex="1" padding="2rem" bg="gray.50">
+        <Box flex="1" padding="2rem" bg="gray.50" color="black">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
