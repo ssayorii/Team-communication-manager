@@ -14,9 +14,7 @@ import Projects from "./pages/Projects";
 import TaskManager from "./components/TaskManager/TaskManager";
 import Home from "./pages/Home";
 import ProjectView from "./components/ProjectView";
-import Tasks from "../src/pages/Tasks";
-import Projects from "../src/pages/Projects";
-
+import EventCalendar from "./pages/EventCalendar";
 function App() {
   return (
     <Router>
