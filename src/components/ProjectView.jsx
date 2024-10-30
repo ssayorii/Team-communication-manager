@@ -30,7 +30,7 @@ const ProjectView = () => {
   return (
     <Box bg="gray.50" minH="100vh">
       <Flex px={6} py={3} top={0} zIndex={1}>
-        <Text fontSize={"xx-large"} fontWeight="semibold" color="gray.900">
+        <Text fontSize={"xx-large"} fontWeight="bold" color="gray.900">
           Projects / Asana Clone
         </Text>
       </Flex>
@@ -66,6 +66,9 @@ const ProjectView = () => {
               borderRadius="lg"
               borderWidth="1px"
               borderColor="gray.200"
+              boxShadow={"sm"}
+              overflow="hidden"
+              marginBottom={"3.5rem"}
             >
               <Table variant="simple">
                 <Thead bg="gray.50">
@@ -95,7 +98,7 @@ const ProjectView = () => {
                         variant="ghost"
                         size="sm"
                         color="gray.500"
-                        fontWeight="normal"
+                        fontWeight="semibold"
                         _hover={{ bg: "transparent", color: "gray.700" }}
                       >
                         Add Task
