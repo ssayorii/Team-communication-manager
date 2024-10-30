@@ -1,121 +1,116 @@
+import React from "react";
 import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-  Badge,
   Box,
-  Heading,
-  HStack,
-  SimpleGrid,
-  Table,
-  Tag,
-  Tbody,
+  Flex,
   Text,
-  Th,
+  Table,
   Thead,
+  Tbody,
   Tr,
   Td,
-  VStack,
-  Icon,
-  IconButton,
-  Flex,
+  Th,
+  Button,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-
-import React from "react";
+import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
+import TaskRow from "./TaskRow";
+import { sections } from "./Tasks";
+import SubtaskRow from "./SubTaskRow";
 
 const ProjectView = () => {
-  const textColor = "gray.700";
-  return (
-    <Box w="80%" p={4}>
-      <Text fontSize="2xl" fontWeight="bold" mb={4} color={textColor}>
-        Projects / Asana Clone
-      </Text>
+  const TableHead = [
+    "Task",
+    "Description",
+    "Assignee",
+    "Start",
+    "End",
+    "Priority",
+    "Status",
+  ];
 
-      {/* <Accordion
-          bg="gray.200"
-          boxShadow={"lg"}
-          borderRadius={10}
-          marginTop={8}
-          allowToggle
-          defaultIndex={[0]}
-        >
-          <AccordionItem>
-            <AccordionButton>
-              <Box
-                flex={"1"}
-                textAlign={"left"}
-                fontWeight={"bold"}
-                color={"gray.500"}
-                fontSize={20}
-                _hover={"none"}
-              >
-                TODO
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel> */}
-      <Badge
-        colorScheme="gray.600"
-        color={textColor}
-        fontSize={20}
-        fontWeight="bold"
-        paddingRight={30}
-        borderRadius={5}
-        marginTop={30}
-      >
-        <Flex>
-          <Icon marginTop={1.5} as={ChevronDownIcon} />
-          <Text>TODO</Text>
-        </Flex>
-      </Badge>
-      <Box
-        bg="gray.200"
-        boxShadow={"lg"}
-        borderRadius={10}
-        marginTop={7}
-        flex={"1"}
-        textAlign={"left"}
-        fontWeight={"bold"}
-        color={"gray.500"}
-        fontSize={20}
-        _hover={"none"}
-      >
-        <Table variant={"simple"}>
-          <Thead>
-            <Tr>
-              <Th>Task</Th>
-              <Th>Description</Th>
-              <Th>Assignee</Th>
-              <Th>Start</Th>
-              <Th>End</Th>
-              <Th>Priority</Th>
-              <Th>Status</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr fontWeight={"semibold"} fontSize={15}>
-              <Td paddingRight={5}>Task1</Td>
-              <Td>Complete the homepage layout.</Td>
-              <Td>john doe</Td>
-              <Td>Oct 20</Td>
-              <Td>Oct 25</Td>
-              <Td>
-                <Badge colorScheme="red" marginLeft={3}>
-                  High
-                </Badge>
-              </Td>
-              <Td>
-                <Badge colorScheme="green">Completed</Badge>
-              </Td>
-            </Tr>
-          </Tbody>
-        </Table>
+  return (
+    <Box bg="gray.50" minH="100vh">
+      <Flex px={6} py={3} top={0} zIndex={1}>
+        <Text fontSize={"xx-large"} fontWeight="bold" color="gray.900">
+          Projects / Asana Clone
+        </Text>
+      </Flex>
+
+      <Box p={6}>
+        {sections.map((section) => (
+          <Box key={section.title} mb={6}>
+            <Button
+              leftIcon={<ChevronDownIcon />}
+              variant="ghost"
+              bg="gray.100"
+              mb={2}
+              py={1}
+              px={2}
+              bgColor={
+                section.title === "TO DO"
+                  ? "gray.200"
+                  : section.title === "IN PROGRESS"
+                  ? "blue.100"
+                  : "green.100"
+              }
+              height="auto"
+              _hover={{ bg: "gray.200" }}
+              fontWeight="semibold"
+              color="gray.700"
+              fontSize="sm"
+            >
+              {section.title}
+            </Button>
+
+            <Box
+              bg="white"
+              borderRadius="lg"
+              borderWidth="1px"
+              borderColor="gray.200"
+              boxShadow={"sm"}
+              overflow="hidden"
+              marginBottom={"3.5rem"}
+            >
+              <Table variant="simple">
+                <Thead bg="gray.50">
+                  <Tr>
+                    {TableHead.map((head) => (
+                      <Th
+                        borderBottomWidth="1px"
+                        borderColor="gray.200"
+                        color="gray.600"
+                        fontSize="xs"
+                        textTransform="none"
+                        key={head}
+                      >
+                        {head}
+                      </Th>
+                    ))}
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {section.tasks.map((task) => (
+                    <TaskRow key={task.id} task={task} />
+                  ))}
+                  <Tr>
+                    <Td colSpan={7} py={2} border={"none"}>
+                      <Button
+                        leftIcon={<AddIcon w={3} h={3} />}
+                        variant="ghost"
+                        size="sm"
+                        color="gray.500"
+                        fontWeight="semibold"
+                        _hover={{ bg: "transparent", color: "gray.700" }}
+                      >
+                        Add Task
+                      </Button>
+                    </Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </Box>
+          </Box>
+        ))}
       </Box>
-      {/* </AccordionPanel>
-          </AccordionItem>
-        </Accordion> */}
     </Box>
   );
 };
