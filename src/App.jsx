@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
 import Projects from "./pages/Projects";
 import TaskManager from "./components/TaskManager/TaskManager";
+import ProjectManager from "./components/projectManger/ProjectManager";
+
 
 function App() {
   return (
@@ -18,7 +20,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/tasksManager" element={<TaskManager />} />
-            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects" element={<ProjectManager />} />
           </Routes>
         </Box>
       </Flex>
