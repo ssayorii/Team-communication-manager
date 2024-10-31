@@ -32,17 +32,30 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
+import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
+import TaskRow from "../TaskRow";
+import { sections } from "../Tasks";
+import SubtaskRow from "../SubTaskRow";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 const ProjectManager = () => {
+  const TableHead = [
+    "Project",
+    "Color",
+    "Assignee",
+    "Start",
+    "End",
+    "Priority",
+    "Progress",
+  ];
   const [projects, setProjects] = useState([
     {
       id: uuidv4(),
       title: "Asana Clone",
       colorScheme: "red",
       assignees: ["John", "Doe", "Smith"],
-      start: "Oct 20",
-      end: "Oct 25",
+      start: "2024-10-20 ",
+      end: "2024-10-25",
       priority: "High",
       tasks: 3,
       completeTasks: 2,
@@ -52,8 +65,8 @@ const ProjectManager = () => {
       title: "Asana Clone",
       colorScheme: "blue",
       assignees: ["John", "Doe", "Smith"],
-      start: "Oct 20",
-      end: "Oct 25",
+      start: "2024-10-20 ",
+      end: "2024-10-25",
       priority: "High",
       tasks: 3,
       completeTasks: 1,
@@ -63,8 +76,8 @@ const ProjectManager = () => {
       title: "Project 1",
       colorScheme: "gray",
       assignees: ["John", "Doe", "Smith"],
-      start: "Oct 20",
-      end: "Oct 25",
+      start: "2024-10-20 ",
+      end: "2024-10-25",
       priority: "High",
       tasks: 5,
       completeTasks: 3,
@@ -74,8 +87,8 @@ const ProjectManager = () => {
       title: "Project 1",
       colorScheme: "gray",
       assignees: ["John", "Doe", "Smith"],
-      start: "Oct 20",
-      end: "Oct 25",
+      start: "2024-10-20 ",
+      end: "2024-10-25",
       priority: "Medium",
       tasks: 5,
       completeTasks: 3,
@@ -140,7 +153,7 @@ const ProjectManager = () => {
           </ModalHeader>
           <ModalBody>
             <Stack spacing={4}>
-              <FormControl isRequired>
+              <FormControl fontWeight="semibold" isRequired>
                 Title
                 <Input
                   name="title"
@@ -211,7 +224,7 @@ const ProjectManager = () => {
       data-selected={selection.includes(project.id) ? "" : undefined}
       h="30px"
     >
-      <Td p={2} fontSize="ml">
+      <Td p={2} fontSize="ml" fontWeight="semibold">
         <Checkbox marginRight={3} borderRadius="50%"></Checkbox>
         {project.title}
 
@@ -224,7 +237,7 @@ const ProjectManager = () => {
         />
       </Td>
       <Td p={2}>
-        <Badge colorScheme={project.colorScheme} p={1} width="100%"></Badge>
+        <Badge bg={`${project.colorScheme}.500`} p={1} width="100%"></Badge>
       </Td>
 
       <Td p={2}>
@@ -234,7 +247,8 @@ const ProjectManager = () => {
           ))}
         </AvatarGroup>
       </Td>
-      <Td p={2} fontSize="sm">{`${project.start} - ${project.end}`}</Td>
+      <Td p={2} fontSize="sm" fontWeight="semibold">{`${project.start} `}</Td>
+      <Td p={2} fontSize="sm" fontWeight="semibold">{`${project.end}`}</Td>
 
       <Td p={2} fontSize="sm">
         <Button
@@ -264,34 +278,44 @@ const ProjectManager = () => {
   ));
 
   return (
-    <Box>
-      <Table variant="simple" size="sm">
-        <Thead>
+    <Box
+      bg="white"
+      borderRadius="lg"
+      borderWidth="1px"
+      borderColor="gray.200"
+      boxShadow={"sm"}
+      overflow="hidden"
+      marginBottom={"3.5rem"}
+    >
+      <Table variant="simple">
+        <Thead bg="gray.50">
           <Tr>
-            <Th>Project</Th>
-            <Th>Color</Th>
-            <Th>Assignee</Th>
-            <Th>Start&End</Th>
-            <Th>Priority</Th>
-            <Th>Progress</Th>
+            {TableHead.map((head) => (
+              <Th
+                borderBottomWidth="1px"
+                borderColor="gray.200"
+                color="gray.600"
+                fontSize="xs"
+                textTransform="none"
+                key={head}
+              >
+                {head}
+              </Th>
+            ))}
           </Tr>
         </Thead>
         <Tbody>{rows}</Tbody>
       </Table>
+
       <Button
         mt={2}
-        size="sm"
         variant="ghost"
-        colorScheme="gray"
-        leftIcon={
-          <Icon viewBox="0 0 20 20" boxSize={3} fill="gray.400">
-            <path
-              fillRule="evenodd"
-              d="M10 4a1 1 0 011 1v4h4a1 1 0 110 2h-4v4a1 1 0 11-2 0v-4H5a1 1 0 110-2h4V5a1 1 0 011-1z"
-              clipRule="evenodd"
-            />
-          </Icon>
-        }
+        size="sm"
+        color="gray.500"
+        fontWeight="semibold"
+        leftIcon={<AddIcon w={3} h={3} />}
+        w="full"
+        justifyContent="start"
         onClick={() => {
           setEditingProject(null);
           onOpen();
@@ -299,6 +323,7 @@ const ProjectManager = () => {
       >
         Add Project
       </Button>
+
       <ProjectModal />
     </Box>
   );
