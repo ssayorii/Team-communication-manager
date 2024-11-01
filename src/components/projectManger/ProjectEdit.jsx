@@ -20,7 +20,7 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
     priority: "Medium",
     start: "",
     end: "",
-    colorScheme: "",
+    colorScheme: "gray",
     assignees: [],
   });
 

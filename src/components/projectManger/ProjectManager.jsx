@@ -18,11 +18,13 @@ import {
   Select,
   useToast,
   Text,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ProjectHead from "./ProjectHead";
 import ProjectBody from "./ProjectBody";
 import ProjectEdit from "./ProjectEdit";
+import ProjectTasks from "./ProjectTasks";
 
 const ProjectManager = () => {
   const [selection, setSelection] = useState([]);
@@ -82,47 +84,62 @@ const ProjectManager = () => {
   };
 
   return (
-    <Box
-      bg="white"
-      borderRadius="lg"
-      borderWidth="1px"
-      borderColor="gray.200"
-      boxShadow={"sm"}
-      overflow="hidden"
-      marginBottom={"3.5rem"}
-    >
-      <Table variant="simple">
-        <ProjectHead />
-        <ProjectBody
-          projects={projects}
-          setProjects={setProjects}
-          selection={selection}
-          setSelection={setSelection}
-          handleEdit={handleEdit}
-        />
-      </Table>
-      <Button
-        mt={2}
-        variant="ghost"
-        size="sm"
-        color="gray.500"
-        fontWeight="semibold"
-        leftIcon={<AddIcon w={3} h={3} />}
-        w="full"
-        justifyContent="start"
-        onClick={() => {
-          setEditingProject(null);
-          onOpen();
-        }}
+    <Box display="flex" flexDirection="column">
+      <Box
+        bg="white"
+        borderRadius="lg"
+        borderWidth="1px"
+        borderColor="gray.200"
+        boxShadow={"sm"}
+        overflow="hidden"
+        marginBottom={"3.5rem"}
       >
-        Add Project
-      </Button>
-      <ProjectEdit
-        isOpen={isOpen}
-        onClose={onClose}
-        handleSave={handleSave}
-        editingProject={editingProject}
-      />
+        <Table variant="simple">
+          <ProjectHead />
+          <ProjectBody
+            projects={projects}
+            setProjects={setProjects}
+            selection={selection}
+            setSelection={setSelection}
+            handleEdit={handleEdit}
+          />
+        </Table>
+        <Button
+          mt={2}
+          variant="ghost"
+          size="sm"
+          color="gray.500"
+          fontWeight="semibold"
+          leftIcon={<AddIcon w={3} h={3} />}
+          w="full"
+          justifyContent="start"
+          onClick={() => {
+            setEditingProject(null);
+            onOpen();
+          }}
+        >
+          Add Project
+        </Button>
+        <ProjectEdit
+          isOpen={isOpen}
+          onClose={onClose}
+          handleSave={handleSave}
+          editingProject={editingProject}
+        />
+      </Box>
+      <SimpleGrid columns={2}>
+        <Box
+          mt={30}
+          p={5}
+          borderWidth="1px"
+          borderRadius="lg"
+          borderColor="gray.300"
+          bg="gray.50"
+          boxShadow="sm"
+        >
+          <ProjectTasks />
+        </Box>
+      </SimpleGrid>
     </Box>
   );
 };
