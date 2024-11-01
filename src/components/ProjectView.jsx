@@ -14,7 +14,6 @@ import {
 import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
 import TaskRow from "./TaskRow";
 import { sections } from "./Tasks";
-import SubtaskRow from "./SubTaskRow";
 
 const ProjectView = () => {
   const TableHead = [
