@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-
-import { AbsoluteCenter, Center, Radio, RadioGroup } from "@chakra-ui/react";
 import {
   Box,
   Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Badge,
-  Progress,
-  AvatarGroup,
-  Avatar,
-  Checkbox,
   Button,
-  Icon,
-  IconButton,
+  Stack,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -29,32 +16,22 @@ import {
   FormLabel,
   Input,
   Select,
-  Stack,
   useToast,
+  Text,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
-import TaskRow from "../TaskRow";
-import { sections } from "../Tasks";
-import SubtaskRow from "../SubTaskRow";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { AddIcon } from "@chakra-ui/icons";
+import ProjectHead from "./ProjectHead";
+import ProjectBody from "./ProjectBody";
 
 const ProjectManager = () => {
-  const TableHead = [
-    "Project",
-    "Color",
-    "Assignee",
-    "Start",
-    "End",
-    "Priority",
-    "Progress",
-  ];
+  const [selection, setSelection] = useState([]);
   const [projects, setProjects] = useState([
     {
       id: uuidv4(),
       title: "Asana Clone",
       colorScheme: "red",
       assignees: ["John", "Doe", "Smith"],
-      start: "2024-10-20 ",
+      start: "2024-10-20",
       end: "2024-10-25",
       priority: "High",
       tasks: 3,
@@ -62,42 +39,20 @@ const ProjectManager = () => {
     },
     {
       id: uuidv4(),
-      title: "Asana Clone",
+      title: "Project 1",
       colorScheme: "blue",
-      assignees: ["John", "Doe", "Smith"],
-      start: "2024-10-20 ",
-      end: "2024-10-25",
-      priority: "High",
-      tasks: 3,
-      completeTasks: 1,
-    },
-    {
-      id: uuidv4(),
-      title: "Project 1",
-      colorScheme: "gray",
-      assignees: ["John", "Doe", "Smith"],
-      start: "2024-10-20 ",
-      end: "2024-10-25",
-      priority: "High",
-      tasks: 5,
-      completeTasks: 3,
-    },
-    {
-      id: uuidv4(),
-      title: "Project 1",
-      colorScheme: "gray",
-      assignees: ["John", "Doe", "Smith"],
-      start: "2024-10-20 ",
-      end: "2024-10-25",
+      assignees: ["Alice", "Bob"],
+      start: "2024-10-21",
+      end: "2024-10-30",
       priority: "Medium",
       tasks: 5,
       completeTasks: 3,
     },
   ]);
-  const [selection, setSelection] = useState([]);
   const [editingProject, setEditingProject] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
   const handleEdit = (project) => {
     setEditingProject(project);
     onOpen();
@@ -153,31 +108,30 @@ const ProjectManager = () => {
           </ModalHeader>
           <ModalBody>
             <Stack spacing={4}>
-              <FormControl fontWeight="semibold" isRequired>
-                Title
+              <FormControl>
+                <FormLabel>Title</FormLabel>
                 <Input
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
                   placeholder="Project Title"
                 />
-                <FormControl isRequired>
-                  Color
-                  <Select
-                    name="colorScheme"
-                    value={formData.colorScheme}
-                    onChange={handleInputChange}
-                  >
-                    <option value="red">red</option>
-                    <option value="blue">blue</option>
-                    <option value="red">red</option>
-                    <option value="green">green</option>
-                    <option value="gray">gray</option>
-                  </Select>
-                </FormControl>
               </FormControl>
-              <FormControl isRequired>
-                Priority
+              <FormControl>
+                <FormLabel>Color</FormLabel>
+                <Select
+                  name="colorScheme"
+                  value={formData.colorScheme}
+                  onChange={handleInputChange}
+                >
+                  <option value="blue">blue</option>
+                  <option value="red">red</option>
+                  <option value="green">green</option>
+                  <option value="gray">gray</option>
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Priority</FormLabel>
                 <Select
                   name="priority"
                   value={formData.priority}
@@ -188,8 +142,8 @@ const ProjectManager = () => {
                   <option value="Low">Low</option>
                 </Select>
               </FormControl>
-              <FormControl isRequired>
-                Start Date
+              <FormControl>
+                <FormLabel>Start Date</FormLabel>
                 <Input
                   name="start"
                   type="date"
@@ -197,8 +151,8 @@ const ProjectManager = () => {
                   onChange={handleInputChange}
                 />
               </FormControl>
-              <FormControl isRequired>
-                End Date
+              <FormControl>
+                <FormLabel>End Date</FormLabel>
                 <Input
                   name="end"
                   type="date"
@@ -218,64 +172,6 @@ const ProjectManager = () => {
       </Modal>
     );
   };
-  const rows = projects.map((project) => (
-    <Tr
-      key={project.id}
-      data-selected={selection.includes(project.id) ? "" : undefined}
-      h="30px"
-    >
-      <Td p={2} fontSize="ml" fontWeight="semibold">
-        <Checkbox marginRight={3} borderRadius="50%"></Checkbox>
-        {project.title}
-
-        <IconButton
-          icon={<EditIcon />}
-          variant="ghost"
-          size="sm"
-          onClick={() => handleEdit(project)}
-          mr={2}
-        />
-      </Td>
-      <Td p={2}>
-        <Badge bg={`${project.colorScheme}.500`} p={1} width="100%"></Badge>
-      </Td>
-
-      <Td p={2}>
-        <AvatarGroup size="xs" max={2}>
-          {project.assignees.map((assignee, index) => (
-            <Avatar key={index} name={assignee} />
-          ))}
-        </AvatarGroup>
-      </Td>
-      <Td p={2} fontSize="sm" fontWeight="semibold">{`${project.start} `}</Td>
-      <Td p={2} fontSize="sm" fontWeight="semibold">{`${project.end}`}</Td>
-
-      <Td p={2} fontSize="sm">
-        <Button
-          size="sm"
-          colorScheme={
-            project.priority == "High"
-              ? "red"
-              : project.priority == "Medium"
-              ? "blue"
-              : "green"
-          }
-          variant="outline"
-        >
-          {project.priority}
-        </Button>
-      </Td>
-
-      <Td p={2}>
-        {project.tasks}
-        <Progress
-          value={(project.completeTasks / project.tasks) * 100}
-          size="xs"
-          colorScheme="blue"
-        />
-      </Td>
-    </Tr>
-  ));
 
   return (
     <Box
@@ -288,25 +184,15 @@ const ProjectManager = () => {
       marginBottom={"3.5rem"}
     >
       <Table variant="simple">
-        <Thead bg="gray.50">
-          <Tr>
-            {TableHead.map((head) => (
-              <Th
-                borderBottomWidth="1px"
-                borderColor="gray.200"
-                color="gray.600"
-                fontSize="xs"
-                textTransform="none"
-                key={head}
-              >
-                {head}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>{rows}</Tbody>
+        <ProjectHead />
+        <ProjectBody
+          projects={projects}
+          setProjects={setProjects}
+          selection={selection}
+          setSelection={setSelection}
+          handleEdit={handleEdit}
+        />
       </Table>
-
       <Button
         mt={2}
         variant="ghost"
@@ -323,7 +209,6 @@ const ProjectManager = () => {
       >
         Add Project
       </Button>
-
       <ProjectModal />
     </Box>
   );
