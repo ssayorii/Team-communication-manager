@@ -1,4 +1,3 @@
-// ProjectView.jsx
 import React, { useState } from "react";
 import {
   Box,
@@ -19,10 +18,18 @@ import { sections } from "./Tasks";
 
 const ProjectView = () => {
   const [sectionsList, setSectionsList] = useState(sections);
-  const [expandedSections, setExpandedSections] = useState({});
+  const [expandedSections, setExpandedSections] = useState(
+    sections.reduce(
+      (acc, section) => ({
+        ...acc,
+        [section.title]: true,
+      }),
+      {}
+    )
+  );
   const toast = useToast();
 
-  const TableHead = [
+  const columnConfigs = [
     { name: "Task", width: "20%" },
     { name: "Description", width: "30%" },
     { name: "Assignee", width: "10%" },
@@ -71,7 +78,6 @@ const ProjectView = () => {
       ...prev,
       [sectionTitle]: !prev[sectionTitle],
     }));
-    console.log(expandedSections);
   };
 
   return (
@@ -113,7 +119,7 @@ const ProjectView = () => {
               fontSize="sm"
               onClick={() => toggleSection(section.title)}
             >
-              {section.title} ({section.tasks.length}){" "}
+              {section.title} ({section.tasks.length})
             </Button>
 
             <Box
@@ -124,25 +130,23 @@ const ProjectView = () => {
               boxShadow={"sm"}
               overflow="hidden"
               marginBottom={"3.5rem"}
-              display={
-                expandedSections[section.title] === false ? "none" : "block"
-              }
+              display={expandedSections[section.title] ? "block" : "none"}
             >
               <Table variant="simple">
                 <Thead bg="gray.50">
                   <Tr>
-                    {TableHead.map((head) => (
+                    {columnConfigs.map((config) => (
                       <Th
-                        key={head.name}
+                        key={config.name}
                         borderBottomWidth="1px"
                         borderColor="gray.200"
                         color="gray.600"
                         fontSize="xs"
                         textTransform="none"
-                        width={head.width}
-                        style={{ minWidth: head.width }}
+                        width={config.width}
+                        style={{ minWidth: config.width }}
                       >
-                        {head.name}
+                        {config.name}
                       </Th>
                     ))}
                   </Tr>

@@ -14,7 +14,7 @@ const AssigneeBadge = ({ assignee }) => {
         <Avatar
           border={"none"}
           key={a}
-          name={a} // This will show the first letter of each assignee
+          name={a}
           bg="blue.500"
           color="white"
           shadow="2px 2px 2px 1px rgba(0, 0, 0, 0.2)"
