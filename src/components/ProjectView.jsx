@@ -1,4 +1,5 @@
-import React from "react";
+// ProjectView.jsx
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -10,21 +11,68 @@ import {
   Td,
   Th,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, AddIcon } from "@chakra-ui/icons";
 import TaskRow from "./TaskRow";
 import { sections } from "./Tasks";
 
 const ProjectView = () => {
+  const [sectionsList, setSectionsList] = useState(sections);
+  const [expandedSections, setExpandedSections] = useState({});
+  const toast = useToast();
+
   const TableHead = [
-    "Task",
-    "Description",
-    "Assignee",
-    "Start",
-    "End",
-    "Priority",
-    "Status",
+    { name: "Task", width: "20%" },
+    { name: "Description", width: "30%" },
+    { name: "Assignee", width: "10%" },
+    { name: "Start", width: "10%" },
+    { name: "End", width: "10%" },
+    { name: "Priority", width: "10%" },
+    { name: "Status", width: "10%" },
   ];
+
+  const handleAddTask = (sectionTitle) => {
+    setSectionsList((prevSections) =>
+      prevSections.map((section) => {
+        if (section.title === sectionTitle) {
+          return {
+            ...section,
+            tasks: [
+              ...section.tasks,
+              {
+                id: `task-${Date.now()}`,
+                name: "",
+                description: "",
+                assignee: null,
+                start: "",
+                end: "",
+                priority: "low",
+                status: section.title,
+                subtasks: [],
+              },
+            ],
+          };
+        }
+        return section;
+      })
+    );
+
+    toast({
+      title: "New task added",
+      status: "success",
+      duration: 1500,
+      isClosable: true,
+    });
+  };
+
+  const toggleSection = (sectionTitle) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [sectionTitle]: !prev[sectionTitle],
+    }));
+    console.log(expandedSections);
+  };
 
   return (
     <Box bg="gray.50" minH="100vh">
@@ -35,10 +83,17 @@ const ProjectView = () => {
       </Flex>
 
       <Box p={6}>
-        {sections.map((section) => (
+        {sectionsList.map((section) => (
           <Box key={section.title} mb={6}>
             <Button
-              leftIcon={<ChevronDownIcon />}
+              leftIcon={
+                <ChevronDownIcon
+                  transform={
+                    expandedSections[section.title] ? "rotate(180deg)" : "none"
+                  }
+                  transition="transform 0.2s"
+                />
+              }
               variant="ghost"
               bg="gray.100"
               mb={2}
@@ -56,8 +111,9 @@ const ProjectView = () => {
               fontWeight="semibold"
               color="gray.700"
               fontSize="sm"
+              onClick={() => toggleSection(section.title)}
             >
-              {section.title}
+              {section.title} ({section.tasks.length}){" "}
             </Button>
 
             <Box
@@ -68,27 +124,45 @@ const ProjectView = () => {
               boxShadow={"sm"}
               overflow="hidden"
               marginBottom={"3.5rem"}
+              display={
+                expandedSections[section.title] === false ? "none" : "block"
+              }
             >
               <Table variant="simple">
                 <Thead bg="gray.50">
                   <Tr>
                     {TableHead.map((head) => (
                       <Th
+                        key={head.name}
                         borderBottomWidth="1px"
                         borderColor="gray.200"
                         color="gray.600"
                         fontSize="xs"
                         textTransform="none"
-                        key={head}
+                        width={head.width}
+                        style={{ minWidth: head.width }}
                       >
-                        {head}
+                        {head.name}
                       </Th>
                     ))}
                   </Tr>
                 </Thead>
                 <Tbody>
                   {section.tasks.map((task) => (
-                    <TaskRow key={task.id} task={task} />
+                    <TaskRow
+                      key={task.id}
+                      task={task}
+                      onUpdate={(updatedTask) => {
+                        setSectionsList((prevSections) =>
+                          prevSections.map((s) => ({
+                            ...s,
+                            tasks: s.tasks.map((t) =>
+                              t.id === updatedTask.id ? updatedTask : t
+                            ),
+                          }))
+                        );
+                      }}
+                    />
                   ))}
                   <Tr>
                     <Td colSpan={7} py={2} border={"none"}>
@@ -99,6 +173,7 @@ const ProjectView = () => {
                         color="gray.500"
                         fontWeight="semibold"
                         _hover={{ bg: "transparent", color: "gray.700" }}
+                        onClick={() => handleAddTask(section.title)}
                       >
                         Add Task
                       </Button>
