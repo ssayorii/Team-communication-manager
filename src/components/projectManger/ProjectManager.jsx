@@ -25,6 +25,7 @@ import ProjectHead from "./ProjectHead";
 import ProjectBody from "./ProjectBody";
 import ProjectEdit from "./ProjectEdit";
 import ProjectTasks from "./ProjectTasks";
+import ProjectDailyTasks from "./ProjectDailyTasks";
 
 const ProjectManager = () => {
   const [selection, setSelection] = useState([]);
@@ -127,7 +128,7 @@ const ProjectManager = () => {
           editingProject={editingProject}
         />
       </Box>
-      <SimpleGrid columns={2}>
+      <SimpleGrid gap={5} columns={2}>
         <Box
           mt={30}
           p={5}
@@ -138,6 +139,17 @@ const ProjectManager = () => {
           boxShadow="sm"
         >
           <ProjectTasks />
+        </Box>
+        <Box
+          mt={30}
+          p={5}
+          borderWidth="1px"
+          borderRadius="lg"
+          borderColor="gray.300"
+          bg="gray.50"
+          boxShadow="sm"
+        >
+          <ProjectDailyTasks />
         </Box>
       </SimpleGrid>
     </Box>

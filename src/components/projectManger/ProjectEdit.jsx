@@ -16,7 +16,7 @@ import {
 
 const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
   const [formData, setFormData] = useState({
-    title: "",
+    title: "ProjectTitle",
     priority: "Medium",
     start: "",
     end: "",
@@ -24,12 +24,21 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
     assignees: [],
   });
 
+  const [error, setError] = useState("");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
+    if (formData.start === "") {
+      setError("error");
+    } else {
+      setError("");
+      handleSave(formData);
+    }
+
     handleSave(formData);
   };
 
