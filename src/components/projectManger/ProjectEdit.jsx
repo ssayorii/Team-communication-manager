@@ -12,11 +12,12 @@ import {
   Input,
   Select,
   Button,
+  Text,
 } from "@chakra-ui/react";
 
 const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
   const [formData, setFormData] = useState({
-    title: "ProjectTitle",
+    title: "",
     priority: "Medium",
     start: "",
     end: "",
@@ -32,14 +33,14 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
   };
 
   const handleSubmit = () => {
-    if (formData.start === "") {
+    if (!formData.title.trim()) {
       setError("error");
-    } else {
-      setError("");
-      handleSave(formData);
+      return;
     }
 
+    setError("");
     handleSave(formData);
+    onClose();
   };
 
   return (
@@ -51,7 +52,7 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
         </ModalHeader>
         <ModalBody>
           <Stack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={error}>
               <FormLabel>Title</FormLabel>
               <Input
                 name="title"
@@ -59,7 +60,13 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
                 onChange={handleInputChange}
                 placeholder="Project Title"
               />
+              {error && (
+                <Text color="red.500" fontSize="sm" mt={1}>
+                  {error}
+                </Text>
+              )}
             </FormControl>
+
             <FormControl>
               <FormLabel>Color</FormLabel>
               <Select
@@ -73,6 +80,7 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
                 <option value="gray">gray</option>
               </Select>
             </FormControl>
+
             <FormControl>
               <FormLabel>Priority</FormLabel>
               <Select
@@ -85,6 +93,7 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
                 <option value="Low">Low</option>
               </Select>
             </FormControl>
+
             <FormControl>
               <FormLabel>Start Date</FormLabel>
               <Input
@@ -93,18 +102,30 @@ const ProjectEdit = ({ isOpen, onClose, handleSave, editingProject }) => {
                 value={formData.start}
                 onChange={handleInputChange}
               />
+              {error && (
+                <Text color="red.500" fontSize="sm" mt={1}>
+                  {error}
+                </Text>
+              )}
             </FormControl>
+
             <FormControl>
               <FormLabel>End Date</FormLabel>
               <Input
-                name="end"
+                name="start"
                 type="date"
-                value={formData.end}
+                value={formData.start}
                 onChange={handleInputChange}
               />
+              {error && (
+                <Text color="red.500" fontSize="sm" mt={1}>
+                  {error}
+                </Text>
+              )}
             </FormControl>
           </Stack>
         </ModalBody>
+
         <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
             Save
